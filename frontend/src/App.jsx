@@ -19,7 +19,7 @@ function App() {
     <>
       <h1>React App</h1>
       <Leaderboard></Leaderboard>
-      <SubmitButton></SubmitButton>
+      {/* <SubmitButton></SubmitButton> */}
     </>
   )
 }

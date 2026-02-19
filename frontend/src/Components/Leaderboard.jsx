@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
+import SubmitButton from './SubmitButton';
 
 const ENDPOINT = "http://127.0.0/1:5000/"
 
 async function getLeaderboardData() {
-
     try {
         const response = await fetch("/api/leaderboard");
     
@@ -18,54 +18,48 @@ async function getLeaderboardData() {
     
 }
 
-
-export default function Leaderboard(props) {
+export default function Leaderboard() {
     const [scores, setScores] = useState();
 
+    async function loadLeaderboard() {
+        try {
+            const data = await getLeaderboardData();
+            const scores_array = [...data.rows];
+            scores_array.sort((first, second) => first.score - second.score);
+            setScores(scores_array);
+        } catch (error) {
+            console.error(`Error loading leaderboard: ${error}`);
+        }
+    }
+
     useEffect(() => {
-        getLeaderboardData()
-            .then((data) => {
-                console.log(`data: ${JSON.stringify(data)}`);
-                var player_score_obj = {};
-                data.rows.map((player) => {
-                    if (!player_score_obj.hasOwnProperty(player.username)) {
-                        player_score_obj[player.username] = 0;
-                    }
-                    player_score_obj[player.username] += parseInt(player.score);
-                });
-                var scores_array = [];
-                for (var key in player_score_obj) {
-                    scores_array.push({
-                        username: key,
-                        score: player_score_obj[key]
-                    })
-                };
-                scores_array.sort((first, second) => first.score <= second.score);
-                setScores(scores_array);
-            }).catch((err) => console.error(`Error: ${err}`));
+        loadLeaderboard();
     }, []);
 
     return (
-        <table align="center">
-        <thead>
-            <tr>
-            <th> Position </th>
-            <th> Username </th>
-            <th> Score </th>
-            </tr>
-        </thead>
-        <tbody>
-            {scores &&
-            scores.map((score, index) => {
-                return (
-                <tr key={score.username}>
-                    <td> {index + 1} </td>
-                    <td> {score.username} </td>
-                    <td> {score.score} </td>
+        <>
+            <table align="center">
+            <thead>
+                <tr>
+                <th> Position </th>
+                <th> Username </th>
+                <th> Score </th>
                 </tr>
-                )
-            })}
-        </tbody>
-        </table>
+            </thead>
+            <tbody>
+                {scores &&
+                scores.map((score, index) => {
+                    return (
+                    <tr key={score.username}>
+                        <td> {index + 1} </td>
+                        <td> {score.username} </td>
+                        <td> {score.score} </td>
+                    </tr>
+                    )
+                })}
+            </tbody>
+            </table>
+            <SubmitButton onSubmitSuccess={loadLeaderboard}></SubmitButton>
+        </>
     )
 }
