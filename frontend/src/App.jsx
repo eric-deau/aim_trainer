@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import SubmitButton from './Components/SubmitButton'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -16,6 +17,7 @@ function App() {
   return (
     <>
       <h1>React App</h1>
+      <SubmitButton></SubmitButton>
     </>
   )
 }
