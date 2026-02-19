@@ -4,9 +4,9 @@ export default function SubmitButton() {
 
     async function handleClick() {
         await fetch("/api/runs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: "edev", score: 123 })
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: "edev", score: 123 })
         });
     }
     return (
