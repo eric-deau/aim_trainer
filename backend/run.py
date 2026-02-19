@@ -6,7 +6,7 @@ app = Flask(__name__)
 def home():
     return "Flask backend is live"
 
-@app.route("/leaderboard")
+@app.route("/api/leaderboard")
 def leaderboard():
     return jsonify({
         "ok":True,
