@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createGridshotEngine } from '../game.js'
 import { DURATION_S } from '../utility/statics.js';
+// import "../styles/gridshot.css/"
 
 export default function GridShot({ onRunComplete }) {
     const canvasRef = useRef(null);
@@ -108,10 +109,10 @@ export default function GridShot({ onRunComplete }) {
     }
     
     return (
-        <div style={{ display: "grid", gap: 12, maxWidth: 1000 }}>
-            <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-                <button onClick={start} disabled={running}>Start (60s)</button>
-                <button onClick={stop} disabled={!running}>Stop</button>
+        <div className="bg-white dark:bg-gray-800 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
+            <div className="mx-auto flex max-w-sm items-center gap-x-4 " >
+                <button className="bg-sky-500 hover:bg-sky-700" onClick={start} disabled={running}>Start (60s)</button>
+                <button id="stop-btn" onClick={stop} disabled={!running}>Stop</button>
 
                 <div>Time: <b>{timeLeft.toFixed(1)}</b>s</div>
                 <div>Hits: <b>{hits}</b></div>
@@ -120,7 +121,7 @@ export default function GridShot({ onRunComplete }) {
                 <div>Acc: <b>{accuracy}</b>%</div>
                 <div>Hits/sec: <b>{hps}</b></div>
 
-                <span style={{ color: "#666" }}>{status}</span>
+                <span className="text-xl font-medium text-black dark:text-white">{status}</span>
             </div>
 
             <canvas
@@ -130,7 +131,7 @@ export default function GridShot({ onRunComplete }) {
                 onPointerDown={onPointerDown}
                 style={{
                     border: "1px solid #bbb",
-                    borderRadius: 12,
+                    borderRssadius: 12,
                     touchAction: "none",
                     cursor: running ? "crosshair" : "default",
                     userSelect: "none",

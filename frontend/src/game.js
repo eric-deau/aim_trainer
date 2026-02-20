@@ -58,7 +58,7 @@ export function createGridshotEngine({
 
         state.hits = 0;
         state.shots = 0;
-
+        state.score = 0;
         state.running = false;
         state.startTs = 0;
         state.endTs = 0;
