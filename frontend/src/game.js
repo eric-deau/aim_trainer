@@ -1,4 +1,4 @@
-import { DURATION_S, DURATION_MS, TARGET_COUNT, TARGET_RADIUS } from "./utility/statics";
+import { DURATION_S, DURATION_MS, TARGET_COUNT, TARGET_RADIUS, SCORE_GAIN } from "./utility/statics";
 
 export function createGridshotEngine({
         mode = "gridshot",
@@ -27,8 +27,8 @@ export function createGridshotEngine({
         const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
         return {
-        x: (clientX - rect.left) * scaleX,
-        y: (clientY - rect.top) * scaleY,
+            x: (clientX - rect.left) * scaleX,
+            y: (clientY - rect.top) * scaleY,
         };
     };
 
@@ -41,6 +41,7 @@ export function createGridshotEngine({
 
         hits: 0,
         shots: 0,
+        score: 0,
         targets: [],
 
         canvasW: 0,
@@ -52,7 +53,7 @@ export function createGridshotEngine({
         state.canvasH = canvas.height;
 
         state.targets = Array.from({ length: targetCount }, () =>
-        spawnTarget(canvas.width, canvas.height)
+            spawnTarget(canvas.width, canvas.height)
         );
 
         state.hits = 0;
@@ -84,7 +85,7 @@ export function createGridshotEngine({
         const done = remainingMs <= 0;
 
         if (done) {
-        stop(now);
+            stop(now);
         }
 
         return { done, remainingMs, elapsedMs };
@@ -97,24 +98,26 @@ export function createGridshotEngine({
         state.shots += 1;
 
         for (let i = 0; i < state.targets.length; i++) {
-        const t = state.targets[i];
-        if (dist2(x, y, t.x, t.y) <= t.r * t.r) {
-            state.hits += 1;
-            t.hitFlashUntil = now + 70;
-            state.targets[i] = spawnTarget(canvas.width, canvas.height);
-            return { hit: true };
+            const t = state.targets[i];
+            if (dist2(x, y, t.x, t.y) <= t.r * t.r) {
+                state.hits += 1;
+                state.score += SCORE_GAIN;
+                t.hitFlashUntil = now + 70;
+                state.targets[i] = spawnTarget(canvas.width, canvas.height);
+                return { hit: true };
+            }
         }
-        }
-
+        state.score -= 100;
         return { hit: false };
     }
 
     function getResult() {
         return {
-        mode: state.mode,
-        score: state.hits,
-        shots: state.shots,
-        duration: durationS,
+            mode: state.mode,
+            hits: state.hits,
+            shots: state.shots,
+            score: state.score,
+            duration: durationS,
         };
     }
 
@@ -126,20 +129,18 @@ export function createGridshotEngine({
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         for (const t of state.targets) {
-        ctx.beginPath();
-        ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
+            ctx.beginPath();
+            ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
 
-        const flashing = now < t.hitFlashUntil;
-        ctx.fillStyle = flashing ? "#ffd166" : "#ff4d4d";
-        ctx.fill();
+            const flashing = now < t.hitFlashUntil;
+            ctx.fillStyle = flashing ? "#ffd166" : "#ff4d4d";
+            ctx.fill();
 
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = flashing ? "#c08400" : "#b30000";
-        ctx.stroke();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = flashing ? "#c08400" : "#b30000";
+            ctx.stroke();
         }
 
-        ctx.fillStyle = "#008000";
-        ctx.fillRect(canvas.width / 2 - 1, canvas.height / 2 - 1, 2, 2);
     }
 
     return {

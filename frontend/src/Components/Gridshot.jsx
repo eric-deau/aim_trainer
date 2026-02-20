@@ -10,6 +10,7 @@ export default function GridShot({ onRunComplete }) {
     const [timeLeft, setTimeLeft] = useState(DURATION_S);
     const [hits, setHits] = useState(0);
     const [shots, setShots] = useState(0);
+    const [score, setScore] = useState(0);
     const [status, setStatus] = useState("");
 
     const accuracy = useMemo(() => (shots === 0 ? 0 : Math.round((hits / shots) * 100)), [hits, shots]);
@@ -41,12 +42,12 @@ export default function GridShot({ onRunComplete }) {
 
     function syncUI(now, remainingMs) {
         const game = gameRef.current;
-
         
         if (Math.floor(now / 100) !== Math.floor((now - 16) / 100)) {
-        setTimeLeft(remainingMs / 1000);
-        setHits(game.state.hits);
-        setShots(game.state.shots);
+            setTimeLeft(remainingMs / 1000);
+            setHits(game.state.hits);
+            setShots(game.state.shots);
+            setScore(game.state.score)
         }
   }
     
@@ -60,13 +61,14 @@ export default function GridShot({ onRunComplete }) {
         syncUI(now, remainingMs);
 
         if (done) {
-        setRunning(false);
-        setTimeLeft(0);
-        setHits(game.state.hits);
-        setShots(game.state.shots);
+            setRunning(false);
+            setTimeLeft(0);
+            setHits(game.state.hits);
+            setShots(game.state.shots);
+            setScore(game.state.score);
 
-        setStatus("Run Complete");
-        onRunComplete?.(game.getResult());
+            setStatus("Run Complete");
+            onRunComplete?.(game.getResult());
         return;
         }
 
@@ -85,6 +87,7 @@ export default function GridShot({ onRunComplete }) {
         setTimeLeft(game.config.durationS);
         setHits(0);
         setShots(0);
+        setScore(0);
 
         game.state.raf = requestAnimationFrame(loop);
     }
@@ -113,6 +116,7 @@ export default function GridShot({ onRunComplete }) {
                 <div>Time: <b>{timeLeft.toFixed(1)}</b>s</div>
                 <div>Hits: <b>{hits}</b></div>
                 <div>Shots: <b>{shots}</b></div>
+                <div>Score: <b>{score}</b></div>
                 <div>Acc: <b>{accuracy}</b>%</div>
                 <div>Hits/sec: <b>{hps}</b></div>
 
