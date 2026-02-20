@@ -168,7 +168,7 @@ export default function FpsGridShot() {
     const actionsRef = useRef({ start: null });
 
     return (
-        <div style={{ width: "100%", height: "80vh", position: "relative" }}>
+        <div style={{ position: "fixed", inset: 0 }}>
             <HUD
                 running={hud.running}
                 timeLeft={hud.timeLeft}
