@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { createGridshotEngine } from '../game.js'
 import { DURATION_S } from '../utility/statics.js';
 import HUD from './HUD.jsx';
+import Canvas from './Canvas.jsx';
 
 export default function GridShot({ onRunComplete }) {
     const canvasRef = useRef(null);
@@ -123,20 +124,20 @@ export default function GridShot({ onRunComplete }) {
                 start={start}
             ></HUD> 
 
-
-            <canvas
+            <Canvas canvasRef={canvasRef} onPointerDown={onPointerDown} running={running}></Canvas>
+            {/* <canvas
                 ref={canvasRef}
                 width={900}
                 height={550}
                 onPointerDown={onPointerDown}
                 style={{
                     border: "1px solid #bbb",
-                    borderRssadius: 12,
+                    borderRadius: 12,
                     touchAction: "none",
                     cursor: running ? "crosshair" : "default",
                     userSelect: "none",
                 }}
-            />
+            /> */}
         </div>
     );
 }
