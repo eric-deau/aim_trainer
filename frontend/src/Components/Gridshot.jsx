@@ -85,7 +85,7 @@ export default function GridShot({ onRunComplete }) {
         game.start(performance.now());
 
         setRunning(true);
-        setStatus("");
+        setStatus("Running");
         setTimeLeft(game.config.durationS);
         setHits(0);
         setShots(0);
@@ -125,19 +125,6 @@ export default function GridShot({ onRunComplete }) {
             ></HUD> 
 
             <Canvas canvasRef={canvasRef} onPointerDown={onPointerDown} running={running}></Canvas>
-            {/* <canvas
-                ref={canvasRef}
-                width={900}
-                height={550}
-                onPointerDown={onPointerDown}
-                style={{
-                    border: "1px solid #bbb",
-                    borderRadius: 12,
-                    touchAction: "none",
-                    cursor: running ? "crosshair" : "default",
-                    userSelect: "none",
-                }}
-            /> */}
         </div>
     );
 }
