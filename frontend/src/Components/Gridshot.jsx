@@ -110,7 +110,7 @@ export default function GridShot({ onRunComplete }) {
     }
     
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
+        <div className="bg-white dark:bg-gray-800 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5 space-y-6">
             <HUD
                 running={running}
                 timeLeft={timeLeft}

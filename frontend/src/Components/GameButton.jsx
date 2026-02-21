@@ -5,8 +5,8 @@ export default function GameButton({ children, disabled, onClick, variant = "pri
 
     const styles =
         variant === "primary"
-        ? "bg-zinc-900 text-white hover:bg-zinc-800 focus:ring-zinc-900"
-        : "bg-white text-zinc-900 ring-1 ring-zinc-200 hover:bg-zinc-50 focus:ring-zinc-300";
+        ? "bg-green-900 text-white hover:bg-green-800 focus:ring-zinc-900"
+        : "bg-red-500 text-white ring-1 ring-zinc-200 hover:bg-red-50 focus:ring-zinc-300";
 
     return (
         <button className={`${base} ${styles}`} onClick={onClick} disabled={disabled}>
