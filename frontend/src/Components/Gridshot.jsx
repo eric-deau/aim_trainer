@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createGridshotEngine } from '../game.js'
 import { DURATION_S } from '../utility/statics.js';
-// import "../styles/gridshot.css/"
+import HUD from './HUD.jsx';
 
 export default function GridShot({ onRunComplete }) {
     const canvasRef = useRef(null);
@@ -110,19 +110,19 @@ export default function GridShot({ onRunComplete }) {
     
     return (
         <div className="bg-white dark:bg-gray-800 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
-            <div className="mx-auto flex max-w-sm items-center gap-x-4 " >
-                <button className="bg-sky-500 hover:bg-sky-700" onClick={start} disabled={running}>Start (60s)</button>
-                <button id="stop-btn" onClick={stop} disabled={!running}>Stop</button>
+            <HUD
+                running={running}
+                timeLeft={timeLeft}
+                hits={hits}
+                shots={shots}
+                hps={hps}
+                acc={accuracy}
+                status={status}
+                score={score}
+                stop={stop}
+                start={start}
+            ></HUD> 
 
-                <div>Time: <b>{timeLeft.toFixed(1)}</b>s</div>
-                <div>Hits: <b>{hits}</b></div>
-                <div>Shots: <b>{shots}</b></div>
-                <div>Score: <b>{score}</b></div>
-                <div>Acc: <b>{accuracy}</b>%</div>
-                <div>Hits/sec: <b>{hps}</b></div>
-
-                <span className="text-xl font-medium text-black dark:text-white">{status}</span>
-            </div>
 
             <canvas
                 ref={canvasRef}

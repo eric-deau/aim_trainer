@@ -1,27 +1,37 @@
-export default function HUD({ running, timeLeft, hits, shots, acc, onStart }) {
+import Stat from "./Stat";
+import GameButton from "./GameButton";
+
+export default function HUD({ running, timeLeft, hits, shots, score, acc, start, stop, hps, status }) {
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: 12,
-        left: 12,
-        padding: 10,
-        borderRadius: 10,
-        background: "rgba(255,255,255,0.85)",
-        fontFamily: "system-ui, Arial",
-      }}
-    >
-      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-        <button onClick={onStart} disabled={running}>
-          Start (60s)
-        </button>
-        <div>Time: <b>{timeLeft.toFixed(1)}</b>s</div>
-        <div>Hits: <b>{hits}</b></div>
-        <div>Shots: <b>{shots}</b></div>
-        <div>Acc: <b>{acc}</b>%</div>
-      </div>
-      <div style={{ marginTop: 6, color: "#444" }}>
-        Click scene to lock mouse. Click to shoot.
+    <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 shadow-sm">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-2">
+            <GameButton onClick={start} disabled={running}>
+              Start (60s)
+            </GameButton>
+            <GameButton onClick={stop} disabled={!running} variant="secondary">
+              Stop
+            </GameButton>
+
+            <div className="ml-0 flex flex-wrap gap-2 sm:ml-3">
+              <Stat label="Time" value={`${timeLeft.toFixed(1)}s`} />
+              <Stat label="Hits" value={hits} />
+              <Stat label="Shots" value={shots} />
+              <Stat label="Acc" value={`${acc}%`} />
+              <Stat label="score" value={score} />
+              <Stat label="Hits/sec" value={hps} />
+            </div>
+          </div>
+
+          <div className="text-sm">
+            {status ? (
+              <span className="inline-flex items-center rounded-xl bg-white px-3 py-2 font-medium text-zinc-700 shadow-sm ring-1 ring-zinc-200">
+              {status}
+              </span>
+              ) : (
+              <span className="text-zinc-400">Ready</span>
+            )}
+        </div>
       </div>
     </div>
   );
