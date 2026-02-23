@@ -38,3 +38,30 @@ def signup():
         "ok": True,
         "user": {"id": user.id, "username": user.username}
     }), 201
+
+@auth_bp.post("/login")
+def login():
+    data = request.get_json(silent=True) or {}
+
+    username = (data.get("username") or "").strip()
+    password = data.get("password") or ""
+
+    if not username or not password:
+        return jsonify({"error": "Missing credentials"}), 400
+    
+    try:
+        user = User.query.filter_by(username=username).first()
+    except Exception as e:
+        return jsonify({"error": "Login error"}), 401
+    
+    if not user or not check_password_hash(user.password_hash, password):
+        return jsonify({"error": "Incorrect credentials"}), 401
+    
+    session.clear()
+    session["user_id"] = user.id
+    session["username"] = user.username
+
+    return jsonify({
+        "ok": True,
+        "user": {"id": user.id, "username": user.username}
+    })
