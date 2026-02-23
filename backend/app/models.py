@@ -1,17 +1,17 @@
 from sqlalchemy import func
 from .extensions import db
 
-class User(db.model):
+class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.BigInteger, primary_key=True)
     username = db.Column(db.String(40), unique=True, nullable=False, index=True)
-    password_hash = db.Column(db.string(255), nullable=False)
-    created_at = db.column(db.DateTime(timezone=True), server_default=func.now(), nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     runs = db.relationship("Runs", back_populates="user", cascade="all, delete-orphan")
 
-class Runs(db.model):
+class Runs(db.Model):
     __tablename__ = "runs"
 
     id = db.Column(db.BigInteger, primary_key=True)

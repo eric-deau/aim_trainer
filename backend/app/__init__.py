@@ -1,10 +1,9 @@
+from dotenv import load_dotenv
+load_dotenv()
 from flask import Flask
 from .extensions import db, sess
 from .config import DevelopmentConfig, ProductionConfig
-from dotenv import load_dotenv
 import os
-
-load_dotenv()
 
 def create_app():
     app = Flask(__name__)
@@ -16,6 +15,7 @@ def create_app():
     else:
         app.config.from_object(DevelopmentConfig)
 
+    print("DB URI:", app.config["SQLALCHEMY_DATABASE_URI"])
     db.init_app(app)
     sess.init_app(app)
 
@@ -27,7 +27,7 @@ def create_app():
     from .gridshot_api import gridshot_bp
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
-    app.register_blueprint(gridshot_api, url_prefix="/api")
+    app.register_blueprint(gridshot_bp, url_prefix="/api")
 
     # @app.get("/")
     # def home():
