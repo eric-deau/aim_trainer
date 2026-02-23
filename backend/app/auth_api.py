@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, session
+from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 from .extensions import db
 from .models import User
@@ -70,3 +71,4 @@ def login():
 def logout():
     session.clear()
     return jsonify({"ok": True})
+
