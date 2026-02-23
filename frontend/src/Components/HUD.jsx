@@ -18,8 +18,8 @@ export default function HUD({ running, timeLeft, hits, shots, score, acc, start,
               <Stat label="Hits" value={hits} />
               <Stat label="Shots" value={shots} />
               <Stat label="Acc" value={`${acc}%`} />
-              <Stat label="score" value={score} />
-              <Stat label="Hits/sec" value={hps} />
+              <Stat label="Score" value={score} />
+              <Stat label="Hits/Sec" value={hps} />
             </div>
           </div>
 
