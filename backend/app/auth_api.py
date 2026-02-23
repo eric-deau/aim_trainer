@@ -65,3 +65,8 @@ def login():
         "ok": True,
         "user": {"id": user.id, "username": user.username}
     })
+
+@auth_bp.post("logout")
+def logout():
+    session.clear()
+    return jsonify({"ok": True})
