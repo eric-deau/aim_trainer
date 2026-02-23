@@ -20,27 +20,52 @@ def to_int(value, default=None):
 
 @gridshot_bp.get("/leaderboard")
 def leaderboard():
-    try:
-        rows = (
-            Runs.query
-            .order_by(Runs.score.desc())
-            .limit(10)
-            .all()
-        )
-    except Exception as err:
-        return jsonify({"error": "Error retrieving leaderboard."}), 500
+    mode = (request.args.get("mode") or "").strip()
+    limit = to_int(request.args.get("limit"), 10)
+    limit = max(1, min(limit, 100))  # clamp 1..100
 
-    return jsonify({
-        "ok": True,
-        "rows": [
+    try:
+        q = (
+            db.session.query(
+                Runs.id,
+                Runs.mode,
+                Runs.score,
+                Runs.hits,
+                Runs.shots,
+                Runs.duration_ms,
+                Runs.created_at,
+                User.username.label("username"),
+            )
+            .join(User, User.id == Runs.user_id)
+        )
+
+        if mode:
+            q = q.filter(Runs.mode == mode)
+
+        rows = (
+            q.order_by(desc(Runs.score), desc(Runs.created_at))
+             .limit(limit)
+             .all()
+        )
+
+        result_rows = [
             {
-                "username": r.user.username,
+                "run_id": r.id,
+                "username": r.username,
+                "mode": r.mode,
                 "score": r.score,
-                "accuracy": r.accuracy,
+                "hits": r.hits,
+                "shots": r.shots,
+                "duration_ms": r.duration_ms,
+                "created_at": r.created_at.isoformat() if r.created_at else None,
             }
             for r in rows
         ]
-    })
+
+    except SQLAlchemyError as err:
+        return jsonify({"ok": False, "error": "Error retrieving leaderboard."}), 500
+
+    return jsonify({"ok": True, "rows": result_rows}), 200
 
 @gridshot_bp.post("/submit_run")
 def submit_run():
@@ -65,7 +90,7 @@ def submit_run():
     if hits > shots:
         return jsonify({"ok": False, "error": "Hits cannot exceed shots"}), 400
 
-    run = Run(
+    run = Runs(
         user_id=user_id,
         mode=mode,
         score=score,
