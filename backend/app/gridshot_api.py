@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, session
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import desc
-from .extensions import db, sess
+from .extensions import db
 from .models import User, Runs
 
 gridshot_bp = Blueprint("gridshot", __name__)
@@ -22,7 +22,7 @@ def to_int(value, default=None):
 def leaderboard():
     mode = (request.args.get("mode") or "").strip()
     limit = to_int(request.args.get("limit"), 10)
-    limit = max(1, min(limit, 100))  # clamp 1..100
+    limit = max(1, min(limit, 100))
 
     try:
         q = (
