@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { login, signUp } from "../auth.js";
 
-export default function AuthCard({ onAuthed }) {
+export default function AuthCard({ onLogin, onSignup }) {
   const [mode, setMode] = useState("login"); 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -9,28 +9,24 @@ export default function AuthCard({ onAuthed }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  async function onSubmit(e) {
+   async function onSubmit(e) {
     e.preventDefault();
     setError("");
     setLoading(true);
-
     try {
       const u = username.trim();
-      if (u.length < 1) throw new Error("Username must be at least 1 characters.");
-      if (password.length < 8) throw new Error("Password must be at least 8 characters.");
-
-      const user =
-        mode === "login"
-          ? await login(u, password)
-          : await signUp(u, password);
-
-      onAuthed?.(user);
+      if (mode === "login") {
+        const user = await onLogin(u, password);
+      } else {
+        const user = await onSignup(u, password);
+      }
     } catch (err) {
       setError(err?.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
   }
+
 
   return (
     <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
