@@ -1,19 +1,25 @@
-require('dotenv').config();
-const strings = require("./lang/en/en.json");
+import strings from "./lang/en/en.json";
 
 async function readJson(res) {
-    const text = res.text;
+    const text = await res.text();   // you forgot await and ()
     try {
         return text ? JSON.parse(text) : {};
     } catch {
         return { error: text || strings["invalidJSON"] };
-    };
-};
+    }
+}
+
+const SIGNUP_ROUTE = import.meta.env.VITE_SIGNUP_ROUTE;
+const LOGIN_ROUTE = import.meta.env.VITE_LOGIN_ROUTE;
+const VALID_SESSION_ROUTE = import.meta.env.VITE_VALID_SESSION_ROUTE;
+
+console.log("ENV:", import.meta.env.VITE_SIGNUP_ROUTE);
+console.log(SIGNUP_ROUTE, LOGIN_ROUTE, VALID_SESSION_ROUTE);
 
 export async function signUp(username, password) {
-    const res = await fetch(process.env.SIGNUP_ROUTE, {
+    const res = await fetch(SIGNUP_ROUTE, {
         method: "POST",
-        header: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" }, 
         credentials: "include",
         body: JSON.stringify({ username, password }),
     });
@@ -24,9 +30,9 @@ export async function signUp(username, password) {
 }
 
 export async function login(username, password) {
-    const res = await fetch(process.env.LOGIN_ROUTE, {
+    const res = await fetch(LOGIN_ROUTE, {
         method: "POST",
-        header: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ username, password }),
     });
@@ -37,17 +43,20 @@ export async function login(username, password) {
 }
 
 export async function validSession() {
-    const res = await fetch(process.env.VALID_SESSION_ROUTE, { credentials: "include" });
+    const res = await fetch(VALID_SESSION_ROUTE, {
+        credentials: "include",
+    });
+
     const data = await readJson(res);
-    if (!data.user) throw new Error(data.error || strings["noSession"]);
     return data.user ?? null;
 }
 
-export async function logout() {
+export async function logOut() {
     const res = await fetch("/api/auth/logout", {
         method: "POST",
         credentials: "include",
     });
+
     const data = await readJson(res);
     if (!res.ok) throw new Error(data.error || strings["failedLogout"]);
     return true;
