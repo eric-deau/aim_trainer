@@ -4,7 +4,7 @@ import GridShot from "./Components/Gridshot.jsx";
 import LoadingScreen from "./Components/LoadingScreen.jsx";
 import HeaderGuest from "./Components/HeaderGuest.jsx";
 import Navbar from "./Components/Navbar.jsx";
-import { validSession, logOut, login } from "./auth.js";
+import { validSession, logOut, login, signUp } from "./auth.js";
 import './App.css'
 import strings from "./lang/en/en.json";
 

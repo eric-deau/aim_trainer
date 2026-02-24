@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { login, signUp } from "../auth.js";
 
 export default function AuthCard({ onLogin, onSignup }) {
   const [mode, setMode] = useState("login"); 
