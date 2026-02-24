@@ -3,6 +3,7 @@ load_dotenv()
 from flask import Flask
 from .extensions import db, sess
 from .config import DevelopmentConfig, ProductionConfig
+from datetime import timedelta
 import os
 
 def create_app():
@@ -15,13 +16,14 @@ def create_app():
     else:
         app.config.from_object(DevelopmentConfig)
 
-    print("DB URI:", app.config["SQLALCHEMY_DATABASE_URI"])
     db.init_app(app)
     sess.init_app(app)
 
     from . import models
     with app.app_context():
         db.create_all()
+
+    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=30)
 
     from .auth_api import auth_bp
     from .gridshot_api import gridshot_bp

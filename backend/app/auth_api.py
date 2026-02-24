@@ -17,9 +17,6 @@ def signup():
     if len(password) < 8:
         return jsonify({"error": "Password too short"}), 400
     
-    # if User.query.filter_by(username=username).first():
-    #     return jsonify({"error": "Username is taken, please choose another"}), 409
-    
     try:
         user = User(username=username, password_hash=generate_password_hash(password))
         db.session.add(user)
@@ -34,6 +31,8 @@ def signup():
     session.clear()
     session["user_id"] = user.id
     session["username"] = user.username
+    
+    session.permanent = True
 
     return jsonify({
         "ok": True,
@@ -62,13 +61,48 @@ def login():
     session["user_id"] = user.id
     session["username"] = user.username
 
+    session.permanent = True
+
     return jsonify({
         "ok": True,
         "user": {"id": user.id, "username": user.username}
     })
 
-@auth_bp.post("logout")
+@auth_bp.post("/logout")
 def logout():
     session.clear()
     return jsonify({"ok": True})
+
+@auth_bp.get("/validSession")
+def valid_session():
+    try:
+        user_id = session.get("user_id")
+
+        if not user_id:
+            return jsonify({
+                "ok": True,
+                "user": None
+            }), 200
+        
+        user = db.session.get(User, user_id)
+
+        if not user:
+            session.clear()
+            return jsonify({
+                "ok": True,
+                "user": None
+            }), 200
+        
+        return jsonify({
+            "ok": True,
+            "user": {
+                "id": user.id,
+                "username": user.username
+            }
+        }), 200
+    except Exception as err:
+        return jsonify({
+            "ok": False,
+            "error": "Session validation failed."
+        }), 500
 

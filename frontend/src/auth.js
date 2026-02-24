@@ -13,9 +13,6 @@ const SIGNUP_ROUTE = import.meta.env.VITE_SIGNUP_ROUTE;
 const LOGIN_ROUTE = import.meta.env.VITE_LOGIN_ROUTE;
 const VALID_SESSION_ROUTE = import.meta.env.VITE_VALID_SESSION_ROUTE;
 
-console.log("ENV:", import.meta.env.VITE_SIGNUP_ROUTE);
-console.log(SIGNUP_ROUTE, LOGIN_ROUTE, VALID_SESSION_ROUTE);
-
 export async function signUp(username, password) {
     const res = await fetch(SIGNUP_ROUTE, {
         method: "POST",
