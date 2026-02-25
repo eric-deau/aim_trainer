@@ -1,9 +1,10 @@
-export default function Navbar({ username, view, setView, onLogout }) {
+export default function Navbar({ username, view, setView, onLogout, isDark, onToggleTheme }) {
   return (
-    <header className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white px-4 py-3 shadow-sm">
+    <header className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white px-4 py-3 shadow-sm 
+    dark:border-zinc-700 dark:bg-zinc-950 transition-colors">
       <div className="flex items-center gap-3">
-        <div className="font-bold tracking-tight text-zinc-900">Git Gud</div>
-        <span className="rounded-xl bg-zinc-50 px-3 py-1.5 text-sm font-medium text-zinc-700 ring-1 ring-zinc-200">
+        <span className="rounded-xl bg-zinc-50 px-3 py-1.5 text-sm font-medium text-zinc-700 ring-1 ring-zinc-200 
+        dark:bg-zinc-900 dark:text-zinc-200 dark:ring-zinc-700 transition-colors">
           @{username}
         </span>
       </div>
@@ -41,6 +42,18 @@ export default function Navbar({ username, view, setView, onLogout }) {
           className="rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-900 ring-1 ring-zinc-200 hover:bg-zinc-50"
         >
           Logout
+        </button>
+
+        <button
+          type="button"
+          onClick={onToggleTheme}
+          className={[
+            "rounded-xl px-3 py-2 text-sm font-semibold ring-1 transition",
+            "bg-white text-zinc-900 ring-zinc-200 hover:bg-zinc-50",
+            "dark:bg-zinc-900 dark:text-white dark:ring-zinc-700 dark:hover:bg-zinc-800",
+          ].join(" ")}
+        >
+          {isDark ? "☀️ Light" : "🌙 Dark"}
         </button>
       </nav>
     </header>

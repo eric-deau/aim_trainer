@@ -12,6 +12,7 @@ import strings from "./lang/en/en.json";
 
 import { useAuth } from "./hooks/useAuth.js"
 import { useRunSubmit } from "./hooks/useRunSubmit.js";
+import { useTheme } from "./hooks/useTheme.js";
 
 import { withMinimumLoading } from "./utility/utils.js";
 
@@ -22,6 +23,8 @@ export default function App() {
   const [loadingLabel, setLoadingLabel] = useState(strings["checkingSession"]);
 
   const [showLoader, setShowLoader] = useState(true);
+
+  const { isDark, toggleTheme } = useTheme();
 
   async function runWithLoader(label, fn, minMs = 2000) {
     setAuthError?.("");
@@ -123,7 +126,7 @@ export default function App() {
       {showLoader && (
         <LoadingScreen label={loadingLabel} visible={loading} />
       )}
-      <div className="min-h-screen w-full bg-zinc-100 p-6">
+      <div className="min-h-screen w-full bg-zinc-100 p-6 dark:bg-zinc-950 transition-colors">
         <SubmissionModal
           open={runModalOpen}
           run={pendingRun}
@@ -141,9 +144,11 @@ export default function App() {
               view={view}
               setView={setView}
               onLogout={handleLogout}
+              isDark={isDark}
+              onToggleTheme={toggleTheme}
             />
           ) : (
-            <HeaderGuest />
+            <HeaderGuest isDark={isDark} onToggleTheme={toggleTheme} />
           )}
 
           {authError && (
