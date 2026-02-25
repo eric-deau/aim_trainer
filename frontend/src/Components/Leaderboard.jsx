@@ -27,6 +27,7 @@ export default function Leaderboard() {
         try {
             const data = await getLeaderboardData();
             const scores_array = [...data.rows];
+            console.log(scores_array);
             setScores(scores_array);
         } catch (error) {
             console.error(`Error loading leaderboard: ${error}`);
@@ -43,6 +44,7 @@ export default function Leaderboard() {
                 <div className="w-full max-w-3xl rounded-2xl bg-white shadow-xl ring-1 ring-zinc-200 overflow-hidden">
                    <LeaderboardHeader></LeaderboardHeader>
                     <table className="w-full text-sm">
+                        <LeaderboardTableHeader></LeaderboardTableHeader>
                         <LeaderboardUserRow scores={scores}></LeaderboardUserRow>   
                     </table>
 

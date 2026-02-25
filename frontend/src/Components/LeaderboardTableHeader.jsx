@@ -5,7 +5,8 @@ export default function LeaderboardTableHeader() {
                 <tr className="text-left">
                 <th className="px-6 py-3 font-medium">#</th>
                 <th className="px-6 py-3 font-medium">Player</th>
-                <th className="px-6 py-3 font-medium text-right">Score</th>
+                <th className="px-6 py-3 font-medium">Score</th>
+                <th className="px-6 py-3 font-medium text-right">Aim</th>
                 </tr>
             </thead>
         </>
