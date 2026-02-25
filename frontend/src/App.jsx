@@ -4,7 +4,7 @@ import GridShot from "./Components/Gridshot.jsx";
 import LoadingScreen from "./Components/LoadingScreen.jsx";
 import HeaderGuest from "./Components/HeaderGuest.jsx";
 import Navbar from "./Components/Navbar.jsx";
-import RunCompleteModal from "./Components/SubmissionModal.jsx";
+import SubmissionModal from "./Components/SubmissionModal.jsx";
 import Leaderboard from "./Components/Leaderboard.jsx";
 
 import './App.css'
@@ -49,6 +49,7 @@ export default function App() {
     pendingRun,
     submitting,
     submitError,
+    submitSuccess,
     openRunModal,
     discardRun,
     confirmSubmit,
@@ -123,11 +124,12 @@ export default function App() {
         <LoadingScreen label={loadingLabel} visible={loading} />
       )}
       <div className="min-h-screen w-full bg-zinc-100 p-6">
-        <RunCompleteModal
+        <SubmissionModal
           open={runModalOpen}
           run={pendingRun}
           submitting={submitting}
           error={submitError}
+          success={submitSuccess}
           onClose={discardRun}
           onSubmit={confirmSubmit}
         />
