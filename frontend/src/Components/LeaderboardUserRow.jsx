@@ -42,6 +42,10 @@ export default function LeaderboardUserRow({ scores }) {
                             <td className="px-6 py-4 font-semibold text-zinc-900">
                                 {`${((score.hits / score.shots) * 100).toFixed(1)}%`}
                             </td>
+
+                            <td className="px-6 py-4 font-semibold text-zinc-900">
+                                {`${(score.hits / (score.duration_ms / 1000)).toFixed(1)}`}
+                            </td>
                             
                         </tr>
                     );
