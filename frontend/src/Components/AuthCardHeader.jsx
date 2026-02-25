@@ -2,7 +2,7 @@ export default function AuthCardHeader({ mode, setMode }) {
     return (
         <>
             <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">
+            <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
             {mode === "login" ? "Log In" : "Create Account"}
             </h2>
 
@@ -11,7 +11,7 @@ export default function AuthCardHeader({ mode, setMode }) {
                 type="button"
                 onClick={() => setMode("login")}
                 className={[
-                "rounded-lg px-3 py-1.5 text-sm font-medium transition",
+                "rounded-lg px-3 py-1.5 text-base font-medium transition",
                 mode === "login" ? "bg-white shadow-sm dark:bg-zinc-900 dark:text-white" : "text-zinc-600 dark:text-zinc-400",
                 ].join(" ")}
             >
@@ -21,11 +21,11 @@ export default function AuthCardHeader({ mode, setMode }) {
                 type="button"
                 onClick={() => setMode("signUp")}
                 className={[
-                "rounded-lg px-3 py-1.5 text-sm font-medium transition dark:text-zinc-200 dark:hover:text-white",
+                "rounded-lg px-3 py-1.5 text-base font-medium transition dark:text-zinc-200 dark:hover:text-white",
                 mode === "signUp" ? "bg-white shadow-sm dark:bg-zinc-900 dark:text-white" : "text-zinc-600 dark:text-zinc-400",
                 ].join(" ")}
             >
-                Sign up
+                Sign Up
             </button>
             </div>
         </div>

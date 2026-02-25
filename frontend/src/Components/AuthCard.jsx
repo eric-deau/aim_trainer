@@ -33,7 +33,7 @@ export default function AuthCard({ onLogin, onSignup }) {
 
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:bg-zinc-900">
+    <div className="w-full max-w-lg sm:max-w-xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:bg-zinc-900">
       <AuthCardHeader mode={mode} setMode={setMode}></AuthCardHeader>
 
       <form onSubmit={onSubmit} className="mt-5 space-y-4">
@@ -49,7 +49,7 @@ export default function AuthCard({ onLogin, onSignup }) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-zinc-900 dark:bg-zinc-800 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full rounded-xl bg-zinc-900 dark:bg-zinc-800 px-4 py-2 text-base font-semibold text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {loading ? "Please wait…" : mode === "login" ? "Log in" : "Create account"}
         </button>

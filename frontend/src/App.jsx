@@ -166,7 +166,7 @@ export default function App() {
               </div>
             )
           ) : (
-            <div className="grid place-items-center pt-8">
+            <div className="grid place-items-center pt-48">
               <AuthCard
                 onLogin={handleLogin}
                 onSignup={handleSignup}
