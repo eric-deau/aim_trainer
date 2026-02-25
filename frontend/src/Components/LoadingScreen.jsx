@@ -8,9 +8,9 @@ export default function LoadingScreen({ label = "Loading…", visible }) {
       ].join(" ")}
     >
       <div className="flex flex-col items-center gap-6">
-        <h1 className="text-4xl font-bold tracking-tight text-white">Git Gud</h1>
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-zinc-700 border-t-white" />
-        <p className="text-sm text-zinc-400">{label}</p>
+        <h1 className="text-9xl text-center font-bold tracking-tight text-white">Git Gud</h1>
+        <div className="h-30 w-30 animate-spin rounded-full border-4 border-zinc-700 border-t-white" />
+        <p className="text-base text-zinc-400">{label}</p>
       </div>
     </div>
   );
