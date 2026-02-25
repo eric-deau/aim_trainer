@@ -1,4 +1,6 @@
-export default function HeaderGuest({isDark, onToggleTheme}) {
+import ThemeModeButton from "./ThemeModeButton";
+
+export default function HeaderGuest({ isDark, onToggleTheme }) {
   return (
     <header className="flex flex-wrap items-center justify-between gap-3">
       <div className="tems-center">
@@ -9,17 +11,7 @@ export default function HeaderGuest({isDark, onToggleTheme}) {
           Sign up / log in to play.
         </p>
       </div>
-      <button
-          type="button"
-          onClick={onToggleTheme}
-          className={[
-            "rounded-xl px-3 py-2 text-sm font-semibold ring-1 transition",
-            "bg-white text-zinc-900 ring-zinc-200 hover:bg-zinc-50",
-            "dark:bg-zinc-900 dark:text-white dark:ring-zinc-700 dark:hover:bg-zinc-800",
-          ].join(" ")}
-        >
-          {isDark ? "☀️ Light" : "🌙 Dark"}
-        </button>
+      <ThemeModeButton isDark={isDark} onToggleTheme={onToggleTheme}></ThemeModeButton>
     </header>
   );
 }

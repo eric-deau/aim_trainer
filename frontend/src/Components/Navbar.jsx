@@ -1,4 +1,5 @@
 import NavButton from "./NavButton";
+import ThemeModeButton from "./ThemeModeButton";
 
 export default function Navbar({ username, view, setView, onLogout, isDark, onToggleTheme }) {
   return (
@@ -25,17 +26,7 @@ export default function Navbar({ username, view, setView, onLogout, isDark, onTo
           Log Out
         </button>
 
-        <button
-          type="button"
-          onClick={onToggleTheme}
-          className={[
-            "rounded-xl px-3 py-2 text-sm font-semibold ring-1 transition",
-            "bg-white text-zinc-900 ring-zinc-200 hover:bg-zinc-50",
-            "dark:bg-zinc-900 dark:text-white dark:ring-zinc-700 dark:hover:bg-zinc-800",
-          ].join(" ")}
-        >
-          {isDark ? "☀️ Light" : "🌙 Dark"}
-        </button>
+        <ThemeModeButton isDark={isDark} onToggleTheme={onToggleTheme}></ThemeModeButton>
       </nav>
     </header>
   );
