@@ -1,5 +1,5 @@
 import strings from "./lang/en/en.json";
-import readJson from "./utility/utils.js"
+import { readJson } from "./utility/utils.js"
 
 const SIGNUP_ROUTE = import.meta.env.VITE_SIGNUP_ROUTE;
 const LOGIN_ROUTE = import.meta.env.VITE_LOGIN_ROUTE;

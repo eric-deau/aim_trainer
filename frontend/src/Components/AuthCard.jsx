@@ -16,8 +16,10 @@ export default function AuthCard({ onLogin, onSignup }) {
       const u = username.trim();
       if (mode === "login") {
         const user = await onLogin(u, password);
+        return user;
       } else {
         const user = await onSignup(u, password);
+        return user;
       }
     } catch (err) {
       setError(err?.message || "Something went wrong.");

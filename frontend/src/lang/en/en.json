@@ -12,5 +12,7 @@
   "403": "You are not authorized to access this resource.",
   "invalidJSON": "Invalid JSON response.",
   "failedSignup": "Signup failed.",
-  "failedLogout": "Logout failed."
+  "failedLogout": "Logout failed.",
+  "checkingSession": "Checking session...",
+  "failedSessionCheck": "Failed to check session."
 }

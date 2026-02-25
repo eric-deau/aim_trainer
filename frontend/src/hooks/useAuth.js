@@ -1,58 +1,48 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { validSession, login, signUp, logOut } from "../auth.js";
+import strings from "../lang/en/en.json"
 
 export function useAuth() {
-  const [user, setUser] = useState(null);
-  const [booting, setBooting] = useState(true);
-  const [authError, setAuthError] = useState("");
+    const [user, setUser] = useState(null);
+    const [authError, setAuthError] = useState("");
+    
+    async function checkSession() {
+        try {
+            const u = await validSession();
+            setUser(u);
+        } catch (err) {
+            setAuthError(err?.message || strings["failedSessionCheck"]);
+        } 
+    }
 
-  useEffect(() => {
-    let alive = true;
+    const doLogin = useCallback(async (username, password) => {
+        setAuthError("");
+        const u = await login(username, password);
+        setUser(u);
+        return u;
+    }, []);
 
-    (async () => {
-      try {
-        const u = await validSession();
-        if (alive) setUser(u);
-      } catch (e) {
-        if (alive) setAuthError(e?.message || "Failed to check session");
-      } finally {
-        if (alive) setBooting(false);
-      }
-    })();
+    const doSignup = useCallback(async (username, password) => {
+        setAuthError("");
+        const u = await signUp(username, password);
+        setUser(u);
+        return u;
+    }, []);
 
-    return () => {
-      alive = false;
+    const doLogout = useCallback(async () => {
+        setAuthError("");
+        await logOut();
+        setUser(null);
+    }, []);
+
+    return {
+        user,
+        setUser,
+        authError,
+        setAuthError,
+        doLogin,
+        doSignup,
+        doLogout,
+        checkSession,
     };
-  }, []);
-
-  const doLogin = useCallback(async (username, password) => {
-    setAuthError("");
-    const u = await login(username, password);
-    setUser(u);
-    return u;
-  }, []);
-
-  const doSignup = useCallback(async (username, password) => {
-    setAuthError("");
-    const u = await signUp(username, password);
-    setUser(u);
-    return u;
-  }, []);
-
-  const doLogout = useCallback(async () => {
-    setAuthError("");
-    await logOut();
-    setUser(null);
-  }, []);
-
-  return {
-    user,
-    setUser,
-    booting,
-    authError,
-    setAuthError,
-    doLogin,
-    doSignup,
-    doLogout,
-  };
 }

@@ -1,4 +1,4 @@
-import readJson from "./utility/utils.js"
+import { readJson } from "./utility/utils.js"
 
 export async function submitRun(run) {
     const res = await fetch("/api/submit-run", {
