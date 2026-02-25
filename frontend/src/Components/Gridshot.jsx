@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createGridshotEngine } from '../game.js'
-import { DURATION_S } from '../utility/statics.js';
+import { DURATION_S, DURATION_MS, TARGET_COUNT, TARGET_RADIUS } from '../utility/statics.js';
 import HUD from './HUD.jsx';
 import Canvas from './Canvas.jsx';
 
@@ -27,10 +27,10 @@ export default function GridShot({ onRunComplete }) {
         const canvas = canvasRef.current;
         const game = createGridshotEngine({
             mode: "gridshot",
-            durationMs: 60000,
-            durationS: 60,
-            targetCount: 3,
-            targetRadius: 28,
+            durationMs: DURATION_MS,
+            durationS: DURATION_S,
+            targetCount: TARGET_COUNT,
+            targetRadius: TARGET_RADIUS,
         });
 
         gameRef.current = game;

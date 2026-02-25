@@ -1,13 +1,5 @@
 import strings from "./lang/en/en.json";
-
-async function readJson(res) {
-    const text = await res.text();   // you forgot await and ()
-    try {
-        return text ? JSON.parse(text) : {};
-    } catch {
-        return { error: text || strings["invalidJSON"] };
-    }
-}
+import readJson from "./utility/utils.js"
 
 const SIGNUP_ROUTE = import.meta.env.VITE_SIGNUP_ROUTE;
 const LOGIN_ROUTE = import.meta.env.VITE_LOGIN_ROUTE;

@@ -117,7 +117,7 @@ export function createGridshotEngine({
             hits: state.hits,
             shots: state.shots,
             score: state.score,
-            duration: durationS,
+            duration: DURATION_MS,
         };
     }
 
