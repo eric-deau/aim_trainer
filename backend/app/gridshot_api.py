@@ -67,7 +67,7 @@ def leaderboard():
 
     return jsonify({"ok": True, "rows": result_rows}), 200
 
-@gridshot_bp.post("/submit_run")
+@gridshot_bp.post("/submit-run")
 def submit_run():
     user_id, err = login_required()
     if err:
@@ -78,7 +78,7 @@ def submit_run():
     mode = (data.get("mode") or "").strip()
     hits = to_int(data.get("hits"))
     shots = to_int(data.get("shots"))
-    duration_ms = to_int(data.get("duration_ms"))
+    duration_ms = to_int(data.get("duration"))
     score = to_int(data.get("score"))
 
     if not mode:
