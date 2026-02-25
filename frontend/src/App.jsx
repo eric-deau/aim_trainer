@@ -15,12 +15,13 @@ import { useRunSubmit } from "./hooks/useRunSubmit.js";
 
 import { withMinimumLoading } from "./utility/utils.js";
 
-
 export default function App() {
   const [view, setView] = useState("play");
 
   const [loading, setLoading] = useState(true);
   const [loadingLabel, setLoadingLabel] = useState(strings["checkingSession"]);
+
+  const [showLoader, setShowLoader] = useState(true);
 
   async function runWithLoader(label, fn, minMs = 2000) {
     setAuthError?.("");
@@ -32,7 +33,6 @@ export default function App() {
       setLoading(false);
     }
   }
-
 
   const {
     user,
@@ -54,7 +54,20 @@ export default function App() {
     confirmSubmit,
   } = useRunSubmit();
 
-   useEffect(() => {
+
+  // loader fade out
+  useEffect(() => {
+    if (loading) {
+      setShowLoader(true);
+      return;
+    }
+    const t = setTimeout(() => setShowLoader(false), 500); 
+    return () => clearTimeout(t);
+  }, [loading]);
+
+
+  // run loader
+  useEffect(() => {
     let alive = true;
 
     (async () => {
@@ -71,31 +84,45 @@ export default function App() {
     return () => {
       alive = false;
     };
-   }, []);
+  }, []);
   
-    async function handleLogin(username, password) {
-      await runWithLoader(strings["loggingIn"] ?? "Signing in…", async () => {
-        await doLogin(username, password);
-      });
+  // lock users from scrolling during loading screen
+  useEffect(() => {
+    if (loading) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
     }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [loading]);
+  
+  async function handleLogin(username, password) {
+    await runWithLoader(strings["loggingIn"] ?? "Signing in…", async () => {
+      await doLogin(username, password);
+    });
+  }
 
-    async function handleSignup(username, password) {
-      await runWithLoader(strings["creatingAccount"] ?? "Creating account…", async () => {
-        await doSignup(username, password);
-      });
-    }
+  async function handleSignup(username, password) {
+    await runWithLoader(strings["creatingAccount"] ?? "Creating account…", async () => {
+      await doSignup(username, password);
+    });
+  }
 
-    async function handleLogout() {
-      await runWithLoader(strings["loggingOut"] ?? "Logging out…", async () => {
-        await doLogout();
-      });
-      setView("play");
-    }
+  async function handleLogout() {
+    await runWithLoader(strings["loggingOut"] ?? "Logging out…", async () => {
+      await doLogout();
+    });
+    setView("play");
+  }
 
   return (
-  <>
-    {loading && <LoadingScreen label={loadingLabel} />}
-      <div className="min-h-screen w-full bg-zinc-100 p-6 transition-opacity duration-700 opacity-100 animate-fadeIn">
+    <>
+      {showLoader && (
+        <LoadingScreen label={loadingLabel} visible={loading} />
+      )}
+      <div className="min-h-screen w-full bg-zinc-100 p-6">
         <RunCompleteModal
           open={runModalOpen}
           run={pendingRun}
@@ -105,7 +132,7 @@ export default function App() {
           onSubmit={confirmSubmit}
         />
 
-        <div className="mx-auto max-w-5xl space-y-6">
+        <div className="mx-auto max-w-6xl space-y-6">
           {user ? (
             <Navbar
               username={user.username}
@@ -140,7 +167,7 @@ export default function App() {
             </div>
           )}
         </div>
-        </div>
-      </>
+      </div>
+    </>
   );
 }
