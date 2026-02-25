@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
-import SubmitButton from './SubmitButton';
+import LeaderboardHeader from './LeaderboardHeader';
+import LeaderboardTableHeader from './LeaderboardTableHeader';
+import LeaderboardUserRow from './LeaderboardUserRow';
 
 const ENDPOINT = "http://127.0.0/1:5000/"
 
@@ -25,7 +27,6 @@ export default function Leaderboard() {
         try {
             const data = await getLeaderboardData();
             const scores_array = [...data.rows];
-            scores_array.sort((first, second) => first.score - second.score);
             setScores(scores_array);
         } catch (error) {
             console.error(`Error loading leaderboard: ${error}`);
@@ -38,28 +39,20 @@ export default function Leaderboard() {
 
     return (
         <>
-            <table align="center">
-            <thead>
-                <tr>
-                <th> Position </th>
-                <th> Username </th>
-                <th> Score </th>
-                </tr>
-            </thead>
-            <tbody>
-                {scores &&
-                scores.map((score, index) => {
-                    return (
-                    <tr key={score.username}>
-                        <td> {index + 1} </td>
-                        <td> {score.username} </td>
-                        <td> {score.score} </td>
-                    </tr>
-                    )
-                })}
-            </tbody>
-            </table>
-            <SubmitButton onSubmitSuccess={loadLeaderboard}></SubmitButton>
+            <div className="w-full flex justify-center">
+                <div className="w-full max-w-3xl rounded-2xl bg-white shadow-xl ring-1 ring-zinc-200 overflow-hidden">
+                   <LeaderboardHeader></LeaderboardHeader>
+                    <table className="w-full text-sm">
+                        <LeaderboardUserRow scores={scores}></LeaderboardUserRow>   
+                    </table>
+
+                    {!scores?.length && (
+                    <div className="py-10 text-center text-sm text-zinc-500">
+                        No runs submitted yet.
+                    </div>
+                    )}
+                </div>
+            </div>
         </>
     )
 }

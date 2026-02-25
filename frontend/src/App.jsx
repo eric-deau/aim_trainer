@@ -11,6 +11,7 @@ import strings from "./lang/en/en.json";
 
 import { useAuth } from "./hooks/useAuth.js"
 import { useRunSubmit } from "./hooks/useRunSubmit.js";
+import Leaderboard from "./Components/Leaderboard.jsx";
 
 
 export default function App() {
@@ -78,7 +79,7 @@ export default function App() {
             <GridShot onRunComplete={openRunModal} />
           ) : (
             <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
-              <div className="text-sm text-zinc-600">Leaderboard goes here.</div>
+              <div className="text-sm text-zinc-600"><Leaderboard></Leaderboard></div>
             </div>
           )
         ) : (
