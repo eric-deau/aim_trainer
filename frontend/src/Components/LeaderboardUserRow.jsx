@@ -12,6 +12,7 @@ export default function LeaderboardUserRow({ scores }) {
                             border-t border-zinc-100
                             hover:bg-zinc-50
                             transition-colors
+                            text-center
                         "
                         >
                             <td className="px-6 py-4 font-semibold">
@@ -38,7 +39,7 @@ export default function LeaderboardUserRow({ scores }) {
                                 {score.score.toLocaleString()}
                             </td>
                             
-                            <td className="px-6 py-4 text-right font-semibold text-zinc-900">
+                            <td className="px-6 py-4 font-semibold text-zinc-900">
                                 {`${((score.hits / score.shots) * 100).toFixed(1)}%`}
                             </td>
                             
