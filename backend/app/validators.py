@@ -1,6 +1,6 @@
 import re
 
-USERNAME_RE = re.compile(r"^[A-Za-z0-9_]{3,24}$")
+USERNAME_RE = re.compile(r"^[A-Za-z0-9_]{2,24}$")
 SPECIAL_RE = re.compile(r"[^A-Za-z0-9]")
 
 def validate_username(username: str) -> str | None:
@@ -8,7 +8,7 @@ def validate_username(username: str) -> str | None:
         return "Username must be a string"
     username = username.strip()
     if not USERNAME_RE.match(username):
-        return "Username must be 3-24 chars (letters, numbers, underscore)"
+        return "Username must be 2-24 chars (letters, numbers, underscore)"
     return None
 
 def validate_password(password: str) -> str | None:
@@ -46,7 +46,7 @@ def validate_run_payload(data: dict) -> tuple[dict | None, str | None]:
     if err: return None, err
     shots, err = int_in_range("shots", 0, 100_000)
     if err: return None, err
-    duration_ms, err = int_in_range("duration_ms", 1, 600_000)  # 1ms..10min
+    duration_ms, err = int_in_range("duration_ms", 1, 600_000)
     if err: return None, err
 
     if hits > shots:

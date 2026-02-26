@@ -3,6 +3,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 from .extensions import db
 from .models import User
+from .validators import validate_username, validate_password
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -12,10 +13,20 @@ def signup():
     username = (data.get("username") or "").strip()
     password = data.get("password") or ""
 
-    if len(username) < 1:
-        return jsonify({"error": "Please enter a username"}), 400
-    if len(password) < 8:
-        return jsonify({"error": "Password too short"}), 400
+    err = validate_username(username)
+    if err:
+        return jsonify({"error": err}), 400
+    
+    err = validate_password(password)
+    if err:
+        return jsonify({"error": err}), 400
+    
+
+
+    # if len(username) < 1:
+    #     return jsonify({"error": "Please enter a username"}), 400
+    # if len(password) < 8:
+    #     return jsonify({"error": "Password too short"}), 400
     
     try:
         user = User(username=username, password_hash=generate_password_hash(password))
