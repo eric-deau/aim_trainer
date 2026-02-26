@@ -23,7 +23,7 @@ def validate_password(password: str) -> str | None:
     return None
 
 def validate_run_payload(data: dict) -> tuple[dict | None, str | None]:
-    required = ["mode", "score", "hits", "shots", "duration_ms"]
+    required = ["mode", "score", "hits", "shots", "duration"]
     for k in required:
         if k not in data:
             return None, f"Missing field: {k}"
@@ -46,7 +46,7 @@ def validate_run_payload(data: dict) -> tuple[dict | None, str | None]:
     if err: return None, err
     shots, err = int_in_range("shots", 0, 100_000)
     if err: return None, err
-    duration_ms, err = int_in_range("duration_ms", 1, 600_000)
+    duration_ms, err = int_in_range("duration", 1, 600_000)
     if err: return None, err
 
     if hits > shots:

@@ -3,6 +3,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import desc
 from .extensions import db
 from .models import User, Runs
+from .validators import validate_run_payload
 
 gridshot_bp = Blueprint("gridshot", __name__)
 
@@ -75,31 +76,12 @@ def submit_run():
     
     data = request.get_json(silent=True) or {}
 
-    mode = (data.get("mode") or "").strip()
-    hits = to_int(data.get("hits"))
-    shots = to_int(data.get("shots"))
-    duration_ms = to_int(data.get("duration"))
-    score = to_int(data.get("score"))
-
-    if not mode:
-        return jsonify({"ok": False, "error": "Missing mode"}), 400
-    if hits is None or shots is None or duration_ms is None or score is None:
-        return jsonify({"ok": False, "error": "Missing or invalid numeric fields"}), 400
-    if hits < 0 or shots < 0 or duration_ms <= 0 or score < 0:
-        return jsonify({"ok": False, "error": "Invalid values"}), 400
-    if hits > shots:
-        return jsonify({"ok": False, "error": "Hits cannot exceed shots"}), 400
-
-    run = Runs(
-        user_id=user_id,
-        mode=mode,
-        score=score,
-        hits=hits,
-        shots=shots,
-        duration_ms=duration_ms,
-    )
-
+    cleaned, err = validate_run_payload(data)
+    if err:
+        return jsonify({"error": err}), 400
+    
     try:
+        run = Runs(user_id=user_id, **cleaned)
         db.session.add(run)
         db.session.commit()
     except SQLAlchemyError as err:
