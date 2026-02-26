@@ -27,7 +27,6 @@ export default function Leaderboard() {
         try {
             const data = await getLeaderboardData();
             const scores_array = [...data.rows];
-            console.log(scores_array);
             setScores(scores_array);
         } catch (error) {
             console.error(`Error loading leaderboard: ${error}`);

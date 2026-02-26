@@ -22,7 +22,7 @@ export default function SubmissionSummary({ run }) {
             <div className="mt-2 flex items-center justify-between">
               <span className="text-zinc-600">Duration</span>
               <span className="font-medium text-zinc-900">
-                {Math.round((run?.duration_ms ?? 0) / 1000)}s
+                {Math.round((run?.duration ?? 0) / 1000)}s
               </span>
             </div>
 
