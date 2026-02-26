@@ -23,7 +23,7 @@ export default function HUD({ running, timeLeft, hits, shots, score, acc, start,
             </div>
           </div>
 
-          <div className="text-sm">
+          <div className="text-base">
             {status ? (
               <span
                 className={[
@@ -39,7 +39,7 @@ export default function HUD({ running, timeLeft, hits, shots, score, acc, start,
                 {status}
               </span>
             ) : (
-              <span className="text-green-500">Ready</span>
+              <span className="text-green-500 text-base">Ready</span>
             )}
         </div>
       </div>

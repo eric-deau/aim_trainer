@@ -11,6 +11,7 @@ export default function LeaderboardUserRow({ scores }) {
                         className="
                             border-t border-zinc-100
                             hover:bg-zinc-50
+                            dark:hover:bg-zinc-800
                             transition-colors
                             text-center
                         "
@@ -31,19 +32,19 @@ export default function LeaderboardUserRow({ scores }) {
                                 </span>
                             </td>
 
-                            <td className="px-6 py-4 font-medium text-zinc-900">
+                            <td className="px-6 py-4 font-medium text-zinc-900 dark:text-white">
                                 {score.username}
                             </td>
 
-                            <td className="px-6 py-4 font-semibold text-zinc-900">
+                            <td className="px-6 py-4 font-semibold text-zinc-900 dark:text-white">
                                 {score.score.toLocaleString()}
                             </td>
                             
-                            <td className="px-6 py-4 font-semibold text-zinc-900">
+                            <td className="px-6 py-4 font-semibold text-zinc-900 dark:text-white">
                                 {`${((score.hits / score.shots) * 100).toFixed(1)}%`}
                             </td>
 
-                            <td className="px-6 py-4 font-semibold text-zinc-900">
+                            <td className="px-6 py-4 font-semibold text-zinc-900 dark:text-white">
                                 {`${(score.hits / (score.duration_ms / 1000)).toFixed(1)}`}
                             </td>
                             

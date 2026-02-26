@@ -153,33 +153,16 @@ export default function App() {
           )}
 
           {authError && (
-            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-base text-red-700">
               {authError}
             </div>
           )}
-          {/* {user ? (
-            view === "play" ? (
-              <GridShot onRunComplete={openRunModal} />
-            ) : (
-              <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
-                <div className="text-sm text-zinc-600"><Leaderboard></Leaderboard></div>
-              </div>
-            )
-          ) : (
-              <div className="grid place-items-center pt-48">
-                <AuthCard
-                  onLogin={handleLogin}
-                  onSignup={handleSignup}
-                />
-            </div>
-          )} */}
-
           {user ? (
             view === "play" ? (
               <GridShot onRunComplete={openRunModal} />
             ) : (
-              <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
-                <div className="text-sm text-zinc-600">
+              <div className="rounded-2xl border border-zinc-200 bg-white dark:bg-zinc-900 dark:border-zinc-900 p-4 shadow-sm">
+                <div className="text-base text-zinc-600">
                   <Leaderboard />
                 </div>
               </div>

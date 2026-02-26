@@ -11,7 +11,7 @@ export default function NavButton({
       type="button"
       onClick={() => setView(value)}
       className={[
-        "rounded-xl px-3 py-2 text-sm font-semibold ring-1 transition shadow-sm",
+        "rounded-xl px-3 py-2 text-base font-semibold ring-1 transition shadow-sm",
 
         isActive &&
           "bg-zinc-900 text-white ring-zinc-900 dark:bg-white dark:text-black",
