@@ -2,23 +2,8 @@ import { useState, useEffect } from 'react'
 import LeaderboardHeader from './LeaderboardHeader';
 import LeaderboardTableHeader from './LeaderboardTableHeader';
 import LeaderboardUserRow from './LeaderboardUserRow';
+import { getLeaderboardData } from '../utility/utils.js'
 
-const ENDPOINT = "http://127.0.0/1:5000/"
-
-async function getLeaderboardData() {
-    try {
-        const response = await fetch("/api/leaderboard");
-    
-        if (!response.ok) {
-            throw new Error(`HTTP error: ${response.status}`)
-        }
-        const data = response.json();
-        return data;
-    } catch (error) {
-        console.error(`Error fetching leaderboard data: ${error}`);
-    }
-    
-}
 
 export default function Leaderboard() {
     const [scores, setScores] = useState();

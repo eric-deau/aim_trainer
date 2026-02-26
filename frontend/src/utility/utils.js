@@ -35,3 +35,26 @@ export function passwordScore(pw) {
   const r = passwordRules(pw);
   return [r.lengthOk, r.upperOk, r.specialOk].filter(Boolean).length; // 0..3
 }
+
+export async function getLeaderboardData({ limit = 10, offset = 0 } = {}) {
+    try {
+        const response = await fetch(`/api/leaderboard?limit=${limit}&offset=${offset}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`)
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(`Error fetching leaderboard data: ${error}`);
+    }
+    
+}
+
+export async function getMyRuns({ limit = 25, offset = 0 } = {}) {
+  const res = await fetch(`/api/runs?limit=${limit}&offset=${offset}`, {
+    credentials: "include",
+  });
+  const data = await readJson(res);
+  if (!res.ok) throw new Error(data.error || "Failed to load runs");
+  return data.rows || [];
+}
