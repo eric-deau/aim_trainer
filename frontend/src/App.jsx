@@ -6,6 +6,7 @@ import HeaderGuest from "./Components/HeaderGuest.jsx";
 import Navbar from "./Components/Navbar.jsx";
 import SubmissionModal from "./Components/SubmissionModal.jsx";
 import Leaderboard from "./Components/Leaderboard.jsx";
+import MyAccount from "./Components/MyAccount.jsx";
 
 import './App.css'
 import strings from "./lang/en/en.json";
@@ -160,12 +161,14 @@ export default function App() {
           {user ? (
             view === "play" ? (
               <GridShot onRunComplete={openRunModal} />
-            ) : (
+            ) : view === "leaderboard" ? (
               <div className="rounded-2xl border border-zinc-200 bg-white dark:bg-zinc-900 dark:border-zinc-900 p-4 shadow-sm">
                 <div className="text-base text-zinc-600">
                   <Leaderboard />
                 </div>
               </div>
+            ) : (
+              <MyAccount></MyAccount>
             )
           ) : (
             <div className="flex flex-col items-center pt-24 space-y-12">

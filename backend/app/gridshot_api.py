@@ -98,9 +98,6 @@ def runs():
             )
             .join(User, User.id == Runs.user_id)
             .filter(Runs.user_id == user_id)
-            .limit(limit)
-            .offset(offset)
-            .all()
         )
 
         if mode:
@@ -109,6 +106,7 @@ def runs():
         rows = (
             q.order_by(desc(Runs.score), desc(Runs.created_at))
              .limit(limit)
+             .offset(offset)
              .all()
         )
 
