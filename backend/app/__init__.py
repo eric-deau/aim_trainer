@@ -19,7 +19,6 @@ def create_app():
     db.init_app(app)
     sess.init_app(app)
 
-    from . import models
     with app.app_context():
         db.create_all()
 
@@ -30,9 +29,5 @@ def create_app():
 
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(gridshot_bp, url_prefix="/api")
-
-    # @app.get("/")
-    # def home():
-    #     return "Flask is live"
     
     return app
