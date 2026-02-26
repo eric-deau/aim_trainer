@@ -7,7 +7,7 @@ export default function WelcomeMessage() {
                 </h1>
 
                 <p className="text-lg sm:text-xl text-zinc-600 dark:text-zinc-400">
-                  Train your aim. Track your scores. Climb the leaderboard.
+                  Click the circles. But not to the beat.
                 </p>
               </div>
         </>
