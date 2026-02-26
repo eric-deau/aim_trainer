@@ -50,3 +50,15 @@ export async function logOut() {
     if (!res.ok) throw new Error(data.error || strings["failedLogout"]);
     return true;
 }
+
+export async function changePassword(current_password, new_password) {
+  const res = await fetch("/api/me/change-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ current_password, new_password }),
+  });
+  const data = await readJson(res);
+  if (!res.ok) throw new Error(data.error || "Failed to change password");
+  return true;
+}

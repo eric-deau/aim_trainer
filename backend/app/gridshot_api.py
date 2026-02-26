@@ -24,6 +24,7 @@ def leaderboard():
     mode = (request.args.get("mode") or "").strip()
     limit = to_int(request.args.get("limit"), 10)
     limit = max(1, min(limit, 100))
+    offset = to_int(request.args.get("offset"), 0)
 
     try:
         q = (
@@ -38,6 +39,68 @@ def leaderboard():
                 User.username.label("username"),
             )
             .join(User, User.id == Runs.user_id)
+        )
+
+        if mode:
+            q = q.filter(Runs.mode == mode)
+
+        rows = (
+            q.order_by(desc(Runs.score), desc(Runs.created_at))
+             .limit(limit)
+             .offset(offset)
+             .all()
+        )
+
+        result_rows = [
+            {
+                "run_id": r.id,
+                "username": r.username,
+                "mode": r.mode,
+                "score": r.score,
+                "hits": r.hits,
+                "shots": r.shots,
+                "duration_ms": r.duration_ms,
+                "created_at": r.created_at.isoformat() if r.created_at else None,
+            }
+            for r in rows
+        ]
+
+    except SQLAlchemyError as err:
+        return jsonify({"ok": False, "error": "Error retrieving leaderboard."}), 500
+
+    return jsonify({"ok": True, "rows": result_rows}), 200
+
+
+@gridshot_bp.get("/runs")
+def runs():
+    user_id, err = login_required()
+    
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    
+    mode = (request.args.get("mode") or "").strip()
+    limit = request.args.get("limit", default=25, type=int)
+    offset = request.args.get("offset", default=0, type=int)
+    limit = max(1, min(limit, 100))
+    offset = max(0, offset)
+
+    try:
+        q = (
+            db.session.query(
+                Runs.id,
+                Runs.mode,
+                Runs.score,
+                Runs.hits,
+                Runs.shots,
+                Runs.duration_ms,
+                Runs.created_at,
+                User.username.label("username"),
+            )
+            .join(User, User.id == Runs.user_id)
+            .filter(Runs.user_id == user_id)
+            .limit(limit)
+            .offset(offset)
+            .all()
         )
 
         if mode:
@@ -62,11 +125,11 @@ def leaderboard():
             }
             for r in rows
         ]
-
     except SQLAlchemyError as err:
-        return jsonify({"ok": False, "error": "Error retrieving leaderboard."}), 500
+        return jsonify({"ok": False, "error": "Error retrieving runs."}), 500
 
     return jsonify({"ok": True, "rows": result_rows}), 200
+
 
 @gridshot_bp.post("/submit-run")
 def submit_run():
@@ -89,3 +152,5 @@ def submit_run():
         return jsonify({"ok": False, "error": "Error submitting run"}), 500
 
     return jsonify({"ok": True, "run_id": run.id}), 201
+
+

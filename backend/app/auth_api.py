@@ -110,4 +110,40 @@ def valid_session():
             "ok": False,
             "error": "Session validation failed."
         }), 500
+    
+@auth_bp.post("/change-password")
+def change_password():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json(silent=True) or {}
+    current_password = data.get("current_password") or ""
+    new_password = data.get("new_password") or ""
+
+    if not current_password:
+        return jsonify({"error": "Current password is required"}), 400
+
+    err = validate_password(new_password)
+    if err:
+        return jsonify({"error": err}), 400
+
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    if not check_password_hash(user.password_hash, current_password):
+        return jsonify({"error": "Current password is incorrect"}), 400
+
+    if check_password_hash(user.password_hash, new_password):
+        return jsonify({"error": "New password must be different"}), 400
+
+    try:
+        user.password_hash = generate_password_hash(new_password)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        return jsonify({"error": "Failed to change password"}), 500
+
+    return jsonify({"ok": True}), 200
 
