@@ -21,12 +21,17 @@ export async function withMinimumLoading(fn, minMs = 2000) {
             await sleep(minMs - elapsed);
         }
     }
+}
 
-    // const elapsed = performance.now() - start;
+export function passwordRules(pw) {
+  const lengthOk = pw.length >= 5;
+  const upperOk = /[A-Z]/.test(pw);
+  const specialOk = /[^A-Za-z0-9]/.test(pw);
 
-    // if (elapsed < minMs) {
-    //     await sleep(minMs - elapsed);
-    // }
+  return { lengthOk, upperOk, specialOk };
+}
 
-    // return result;
+export function passwordScore(pw) {
+  const r = passwordRules(pw);
+  return [r.lengthOk, r.upperOk, r.specialOk].filter(Boolean).length; // 0..3
 }
