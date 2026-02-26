@@ -22,8 +22,6 @@ def create_app():
     with app.app_context():
         db.create_all()
 
-    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=30)
-
     from .auth_api import auth_bp
     from .gridshot_api import gridshot_bp
 

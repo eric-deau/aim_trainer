@@ -18,12 +18,12 @@ export async function signUp(username, password) {
     return data.user;
 }
 
-export async function login(username, password) {
+export async function login(username, password, remember) {
     const res = await fetch(LOGIN_ROUTE, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, remember }),
     });
 
     const data = await readJson(res);

@@ -21,13 +21,6 @@ def signup():
     if err:
         return jsonify({"error": err}), 400
     
-
-
-    # if len(username) < 1:
-    #     return jsonify({"error": "Please enter a username"}), 400
-    # if len(password) < 8:
-    #     return jsonify({"error": "Password too short"}), 400
-    
     try:
         user = User(username=username, password_hash=generate_password_hash(password))
         db.session.add(user)
@@ -56,6 +49,7 @@ def login():
 
     username = (data.get("username") or "").strip()
     password = data.get("password") or ""
+    remember = bool(data.get("remember", False))
 
     if not username or not password:
         return jsonify({"error": "Missing credentials"}), 400
@@ -72,7 +66,7 @@ def login():
     session["user_id"] = user.id
     session["username"] = user.username
 
-    session.permanent = True
+    session.permanent = remember
 
     return jsonify({
         "ok": True,

@@ -103,9 +103,9 @@ export default function App() {
     };
   }, [loading]);
   
-  async function handleLogin(username, password) {
+  async function handleLogin(username, password, remember) {
     await runWithLoader(strings["loggingIn"] ?? "Signing in…", async () => {
-      await doLogin(username, password);
+      await doLogin(username, password, remember);
     });
   }
 

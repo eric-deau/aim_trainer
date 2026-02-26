@@ -15,9 +15,9 @@ export function useAuth() {
         } 
     }
 
-    const doLogin = useCallback(async (username, password) => {
+    const doLogin = useCallback(async (username, password, remember) => {
         setAuthError("");
-        const u = await login(username, password);
+        const u = await login(username, password, remember);
         setUser(u);
         return u;
     }, []);

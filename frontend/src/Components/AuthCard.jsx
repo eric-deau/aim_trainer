@@ -16,6 +16,8 @@ export default function AuthCard({ onLogin, onSignup }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const [remember, setRemember] = useState(false);
+
   async function onSubmit(e) {
     e.preventDefault();
     setError("");
@@ -36,7 +38,7 @@ export default function AuthCard({ onLogin, onSignup }) {
       }
 
       if (mode === "login") {
-        const user = await onLogin(u, password);
+        const user = await onLogin(u, password, remember);
         return user;
       } else {
         const user = await onSignup(u, password);
@@ -55,7 +57,15 @@ export default function AuthCard({ onLogin, onSignup }) {
       <AuthCardHeader mode={mode} setMode={setMode}></AuthCardHeader>
       <form onSubmit={onSubmit} className="mt-5 space-y-4">
         <AuthCardUsername username={username} onChange={(e) => setUsername(e.target.value)}></AuthCardUsername>
-        <AuthCardPassword password={password} onChange={(e) => setPassword(e.target.value)} mode={mode}></AuthCardPassword>
+        <AuthCardPassword
+          password={password}
+          onChange={(e) => setPassword(e.target.value)}
+          mode={mode}
+          remember={remember}
+          setRemember={setRemember}
+        >
+          
+          </AuthCardPassword>
         {mode === "signUp" && (
           <>
             <AuthCardConfirmPassword

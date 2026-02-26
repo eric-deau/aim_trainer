@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function AuthCardPassword({ password, onChange, mode }) {
+export default function AuthCardPassword({ password, onChange, mode, remember, setRemember }) {
     const [show, setShow] = useState(false);
 
     useEffect(() => {
@@ -21,7 +21,8 @@ export default function AuthCardPassword({ password, onChange, mode }) {
                         autoComplete={mode === "login" ? "current-password" : "new-password"}
                         placeholder="min 8 characters"
                     />
-                    <label className="mt-2 inline-flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-300 select-none">
+                    <div className="flex justify-between">
+                        <label className="mt-2 inline-flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-300 select-none">
                         <input
                         type="checkbox"
                         checked={show}
@@ -31,8 +32,23 @@ export default function AuthCardPassword({ password, onChange, mode }) {
                             focus:ring-zinc-300 dark:border-zinc-600 dark:bg-zinc-800
                         "
                         />
-                        Show password
+                        Show Password
                     </label>
+                    {mode === "login" && (
+                        <>
+                            <label className="mt-2 inline-flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-300 select-none">
+                            <input
+                            type="checkbox"
+                            checked={remember}
+                            onChange={(e) => setRemember(e.target.checked)}
+                            className="h-4 w-4 rounded border-zinc-300 dark:border-zinc-600 dark:bg-zinc-800"
+                            />
+                            Remember Me
+                        </label>
+                        </>
+                        )}
+                    </div>
+                    
                 </div>
             </div>
         </>
