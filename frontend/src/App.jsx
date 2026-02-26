@@ -15,6 +15,7 @@ import { useRunSubmit } from "./hooks/useRunSubmit.js";
 import { useTheme } from "./hooks/useTheme.js";
 
 import { withMinimumLoading } from "./utility/utils.js";
+import WelcomeMessage from "./Components/WelcomeMessage.jsx";
 
 export default function App() {
   const [view, setView] = useState("play");
@@ -156,8 +157,7 @@ export default function App() {
               {authError}
             </div>
           )}
-
-          {user ? (
+          {/* {user ? (
             view === "play" ? (
               <GridShot onRunComplete={openRunModal} />
             ) : (
@@ -166,11 +166,32 @@ export default function App() {
               </div>
             )
           ) : (
-            <div className="grid place-items-center pt-48">
+              <div className="grid place-items-center pt-48">
+                <AuthCard
+                  onLogin={handleLogin}
+                  onSignup={handleSignup}
+                />
+            </div>
+          )} */}
+
+          {user ? (
+            view === "play" ? (
+              <GridShot onRunComplete={openRunModal} />
+            ) : (
+              <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+                <div className="text-sm text-zinc-600">
+                  <Leaderboard />
+                </div>
+              </div>
+            )
+          ) : (
+            <div className="flex flex-col items-center pt-32 space-y-12">
+              <WelcomeMessage></WelcomeMessage>
               <AuthCard
                 onLogin={handleLogin}
                 onSignup={handleSignup}
               />
+
             </div>
           )}
         </div>

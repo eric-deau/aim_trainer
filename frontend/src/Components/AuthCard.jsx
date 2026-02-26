@@ -35,7 +35,6 @@ export default function AuthCard({ onLogin, onSignup }) {
   return (
     <div className="w-full max-w-lg sm:max-w-xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:bg-zinc-900">
       <AuthCardHeader mode={mode} setMode={setMode}></AuthCardHeader>
-
       <form onSubmit={onSubmit} className="mt-5 space-y-4">
         <AuthCardUsername username={username} onChange={(e) => setUsername(e.target.value)}></AuthCardUsername>
         <AuthCardPassword password={password} onChange={(e) => setPassword(e.target.value)} mode={mode}></AuthCardPassword>
