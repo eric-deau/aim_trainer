@@ -168,7 +168,7 @@ export default function App() {
               </div>
             )
           ) : (
-            <div className="flex flex-col items-center pt-32 space-y-12">
+            <div className="flex flex-col items-center pt-24 space-y-12">
               <WelcomeMessage></WelcomeMessage>
               <AuthCard
                 onLogin={handleLogin}
