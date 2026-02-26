@@ -2,11 +2,16 @@ import { useState } from "react";
 import AuthCardHeader from "./AuthCardHeader";
 import AuthCardUsername from "./AuthCardUsername";
 import AuthCardPassword from "./AuthCardPassword";
+import PasswordStrengthMeter from "./PasswordStrengthMeter";
+import AuthCardConfirmPassword from "./AuthCardConfirmPassword";
+
+import { passwordRules } from "../utility/utils.js";
 
 export default function AuthCard({ onLogin, onSignup }) {
   const [mode, setMode] = useState("login"); 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -17,6 +22,19 @@ export default function AuthCard({ onLogin, onSignup }) {
     setLoading(true);
     try {
       const u = username.trim();
+
+      if (mode === "signUp") {
+        const { lengthOk, upperOk, specialOk } = passwordRules(password);
+        if (!lengthOk || !upperOk || !specialOk) {
+          setError("Password does not meet requirements.");
+          return;
+        }
+        if (password !== confirmPassword) {
+          setError("Passwords do not match.");
+          return;
+        }
+      }
+
       if (mode === "login") {
         const user = await onLogin(u, password);
         return user;
@@ -38,6 +56,15 @@ export default function AuthCard({ onLogin, onSignup }) {
       <form onSubmit={onSubmit} className="mt-5 space-y-4">
         <AuthCardUsername username={username} onChange={(e) => setUsername(e.target.value)}></AuthCardUsername>
         <AuthCardPassword password={password} onChange={(e) => setPassword(e.target.value)} mode={mode}></AuthCardPassword>
+        {mode === "signUp" && (
+          <>
+            <AuthCardConfirmPassword
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <PasswordStrengthMeter password={password} />
+          </>
+        )}
         
         {error && (
           <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
