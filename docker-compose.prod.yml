@@ -36,6 +36,11 @@ services:
         condition: service_healthy
     ports:
       - "127.0.0.1:8000:8000"
+    command: >
+      gunicorn -w 1 -b 0.0.0.0:8000
+      --access-logfile -
+      --error-logfile -
+      run:app
 
   frontend:
     build: ./frontend
