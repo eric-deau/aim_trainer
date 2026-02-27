@@ -2,6 +2,8 @@ services:
   db:
     image: mysql:8.0.41
     restart: unless-stopped
+    env_file:
+      - .env.prod
     environment:
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
@@ -23,6 +25,8 @@ services:
   backend:
     build: ./backend
     restart: unless-stopped
+    env_file:
+      - .env.prod
     environment:
       FLASK_ENV: ${FLASK_ENV:-development}
       SECRET_KEY: ${SECRET_KEY}
