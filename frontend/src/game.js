@@ -1,4 +1,4 @@
-import { DURATION_S, DURATION_MS, TARGET_COUNT, TARGET_RADIUS, SCORE_GAIN } from "./utility/statics";
+import { DURATION_S, DURATION_MS, TARGET_COUNT, TARGET_RADIUS, SCORE_GAIN, HITSTREAK_MULTIPLIER } from "./utility/statics";
 
 export function createGridshotEngine({
         mode = "gridshot",
@@ -41,6 +41,7 @@ export function createGridshotEngine({
 
         hits: 0,
         shots: 0,
+        hitStreak: 0,
         score: 0,
         targets: [],
 
@@ -62,6 +63,7 @@ export function createGridshotEngine({
         state.running = false;
         state.startTs = 0;
         state.endTs = 0;
+        state.hitStreak = 0;
     }
 
     function start(now) {
@@ -101,13 +103,15 @@ export function createGridshotEngine({
             const t = state.targets[i];
             if (dist2(x, y, t.x, t.y) <= t.r * t.r) {
                 state.hits += 1;
-                state.score += SCORE_GAIN;
+                state.hitStreak += 1;
+                state.score += Math.round((SCORE_GAIN * (state.hits / state.shots)) + (state.hitStreak * HITSTREAK_MULTIPLIER));
                 t.hitFlashUntil = now + 70;
                 state.targets[i] = spawnTarget(canvas.width, canvas.height);
                 return { hit: true };
             }
         }
         state.score -= 100;
+        state.hitStreak = 0;
         return { hit: false };
     }
 

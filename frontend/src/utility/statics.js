@@ -6,3 +6,4 @@ export const TARGET_RADIUS = 36;
 export const SCORE_GAIN = 500;
 export const CANVAS_WIDTH = 1024;
 export const CANVAS_HEIGHT = 576;
+export const HITSTREAK_MULTIPLIER = 10;
