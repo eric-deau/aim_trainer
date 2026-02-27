@@ -9,7 +9,7 @@ export default function AuthCardUsername({ username, onChange }) {
                 value={username}
                 onChange={onChange}
                 autoComplete="username"
-                placeholder="e.g. edeau"
+                placeholder=""
           />
         </div>
         </>

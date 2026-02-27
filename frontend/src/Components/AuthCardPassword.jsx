@@ -19,7 +19,7 @@ export default function AuthCardPassword({ password, onChange, mode, remember, s
                         onChange={onChange}
                         type={show ? "text" : "password"}
                         autoComplete={mode === "login" ? "current-password" : "new-password"}
-                        placeholder="min 8 characters"
+                        placeholder="Minimum 8 characters"
                     />
                     <div className="flex justify-between">
                         <label className="mt-2 inline-flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-300 select-none">
