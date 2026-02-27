@@ -20,6 +20,7 @@ def create_app():
     sess.init_app(app)
 
     with app.app_context():
+        from . import models
         db.create_all()
 
     from .auth_api import auth_bp
