@@ -4,6 +4,7 @@ export default function LeaderboardUserRow({ scores }) {
             <tbody>
                 {scores?.map((score, index) => {
                     const isTop3 = index < 3;
+                    const acc = score.shots ? ((score.hits / score.shots) * 100).toFixed(1) : 0;
 
                     return (
                         <tr
@@ -41,7 +42,7 @@ export default function LeaderboardUserRow({ scores }) {
                             </td>
                             
                             <td className="px-6 py-4 font-semibold text-zinc-900 dark:text-white">
-                                {`${((score.hits / score.shots) * 100).toFixed(1)}%`}
+                                {`${acc}%`}
                             </td>
 
                             <td className="px-6 py-4 font-semibold text-zinc-900 dark:text-white">
