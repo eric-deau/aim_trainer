@@ -139,7 +139,7 @@ def submit_run():
 
     cleaned, err = validate_run_payload(data)
     if err:
-        return jsonify({"error": "who is trying to inject into my game"}), 400
+        return jsonify({"error": err}), 400
     
     try:
         run = Runs(user_id=user_id, **cleaned)

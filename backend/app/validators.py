@@ -36,18 +36,20 @@ def validate_run_payload(data: dict) -> tuple[dict | None, str | None]:
         v = data.get(key)
         if not isinstance(v, int):
             return None, f"{key} must be an integer"
-        if v < lo or v > hi:
-            return None, f"{key} out of range"
+        if v < lo:
+            return None, "Are you even trying to play?"
+        if v > hi:
+            return None, "Why are you cheating lol."
         return v, None
 
-    score, err = int_in_range("score", 0, 1_000_000)
+    score, err = int_in_range("score", 0, 300_000)
     if err: return None, err
-    hits, err = int_in_range("hits", 0, 100_000)
-    if err: return None, err
-    shots, err = int_in_range("shots", 0, 100_000)
-    if err: return None, err
-    duration_ms, err = int_in_range("duration", 1, 600_000)
-    if err: return None, err
+    hits, err = int_in_range("hits", 0, 500)
+    if err: return None, "Just click the circles why are you trying to cheat?"
+    shots, err = int_in_range("shots", 0, 1000)
+    if err: return None, "You must be the fastest clicker in the west."
+    duration_ms, err = int_in_range("duration", 1, 60_000)
+    if err: return None, "I know what you did."
 
     if hits > shots:
         return None, "hits cannot exceed shots how did you do that lol"
