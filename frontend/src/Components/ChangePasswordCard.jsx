@@ -43,7 +43,7 @@ export default function ChangePasswordCard({
             autoComplete="new-password"
           />
           <div className="mt-2 text-xs text-zinc-600 dark:text-zinc-400">
-            Min 5 chars, 1 uppercase, 1 special character.
+            Minimum 5 characters, 1 uppercase, 1 special character.
           </div>
         </div>
 
