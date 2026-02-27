@@ -50,7 +50,7 @@ def validate_run_payload(data: dict) -> tuple[dict | None, str | None]:
     if err: return None, err
 
     if hits > shots:
-        return None, "hits cannot exceed shots"
+        return None, "hits cannot exceed shots how did you do that lol"
 
     cleaned = {
         "mode": mode,
