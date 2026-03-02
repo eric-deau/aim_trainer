@@ -1,6 +1,7 @@
 import DiscardButton from "./DiscardButton";
 import SubmissionSummary from "./SubmissionSummary";
 import SubmitButton from "./SubmitButton";
+import { useEffect } from 'react'
 
 export default function SubmissionModal({
     open,
@@ -12,6 +13,15 @@ export default function SubmissionModal({
     success = false,
 }) {
   if (!open) return null;
+
+   useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") onClose?.();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open, onClose]);
 
   return (
     <div className="fixed inset-0 z-50">
