@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import AuthCard from "./Components/AuthCard.jsx";
 import GridShot from "./Components/Gridshot.jsx";
 import LoadingScreen from "./Components/LoadingScreen.jsx";
 import HeaderGuest from "./Components/HeaderGuest.jsx";
@@ -7,7 +6,8 @@ import Navbar from "./Components/Navbar.jsx";
 import SubmissionModal from "./Components/SubmissionModal.jsx";
 import Leaderboard from "./Components/Leaderboard.jsx";
 import MyAccount from "./Components/MyAccount.jsx";
-
+import HowToPlay from "./Components/HowToPlay.jsx";
+import GuestPage from "./Components/GuestPage.jsx";
 import './App.css'
 import strings from "./lang/en/en.json";
 
@@ -16,11 +16,10 @@ import { useRunSubmit } from "./hooks/useRunSubmit.js";
 import { useTheme } from "./hooks/useTheme.js";
 
 import { withMinimumLoading } from "./utility/utils.js";
-import WelcomeMessage from "./Components/WelcomeMessage.jsx";
-import HowToPlay from "./Components/HowToPlay.jsx";
+
 
 export default function App() {
-  const [view, setView] = useState("play");
+  const [view, setView] = useState("guest");
 
   const [loading, setLoading] = useState(true);
   const [loadingLabel, setLoadingLabel] = useState(strings["checkingSession"]);
@@ -80,7 +79,7 @@ export default function App() {
     (async () => {
       try {
           await runWithLoader(strings["checkingSession"], async () => {
-          await checkSession?.();
+            await checkSession?.();
         });
       } catch (e) {
         if (!alive) return;
@@ -92,6 +91,10 @@ export default function App() {
       alive = false;
     };
   }, []);
+
+  useEffect(() => {
+    user ? setView("play") : setView("guest")
+  }, [user]);
   
   // lock users from scrolling during loading screen
   useEffect(() => {
@@ -109,19 +112,21 @@ export default function App() {
     await runWithLoader(strings["loggingIn"] ?? "Signing in…", async () => {
       await doLogin(username, password, remember);
     });
+    setView("play");
   }
 
   async function handleSignup(username, password) {
     await runWithLoader(strings["creatingAccount"] ?? "Creating account…", async () => {
       await doSignup(username, password);
     });
+    setView("play");
   }
 
   async function handleLogout() {
     await runWithLoader(strings["loggingOut"] ?? "Logging out…", async () => {
       await doLogout();
     });
-    setView("play");
+    setView("guest");
   }
 
   return (
@@ -172,23 +177,12 @@ export default function App() {
           ) : (
               view === "howto" ? (
                 <HowToPlay></HowToPlay>
+              ) : view === "play" ? (
+                <GridShot></GridShot>
               ) : (
-                <div className="flex flex-col items-center pt-24 space-y-12">
-                  <WelcomeMessage></WelcomeMessage>
-                  <AuthCard
-                    onLogin={handleLogin}
-                    onSignup={handleSignup}
-                  />
-                </div>
-              )
-            // <div className="flex flex-col items-center pt-24 space-y-12">
-            //   <WelcomeMessage></WelcomeMessage>
-            //   <AuthCard
-            //     onLogin={handleLogin}
-            //     onSignup={handleSignup}
-            //   />
-            // </div>
-          )}
+                <GuestPage handleLogin={ handleLogin } handleSignup={ handleSignup }></GuestPage>
+              )              
+            )}
         </div>
       </div>
     </>
