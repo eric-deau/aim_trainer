@@ -14,6 +14,7 @@ export default function Navbar({ username, view, setView, onLogout, isDark, onTo
 
       <nav className="flex items-center gap-2">
         <NavButton label={"Play"} value="play" currentView={view} setView={setView}></NavButton>
+        <NavButton label="Instructions" value="howto" currentView={view} setView={setView} />
         <NavButton label={"My Profile"} value="account" currentView={view} setView={setView}></NavButton>
         <NavButton label={"Leaderboard"} value="leaderboard" currentView={view} setView={setView}></NavButton>
 

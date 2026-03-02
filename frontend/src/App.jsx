@@ -17,6 +17,7 @@ import { useTheme } from "./hooks/useTheme.js";
 
 import { withMinimumLoading } from "./utility/utils.js";
 import WelcomeMessage from "./Components/WelcomeMessage.jsx";
+import HowToPlay from "./Components/HowToPlay.jsx";
 
 export default function App() {
   const [view, setView] = useState("play");
@@ -150,7 +151,7 @@ export default function App() {
               onToggleTheme={toggleTheme}
             />
           ) : (
-            <HeaderGuest isDark={isDark} onToggleTheme={toggleTheme} />
+              <HeaderGuest isDark={isDark} onToggleTheme={toggleTheme} view={view} setView={setView} />
           )}
 
           {authError && (
@@ -162,23 +163,31 @@ export default function App() {
             view === "play" ? (
               <GridShot onRunComplete={openRunModal} />
             ) : view === "leaderboard" ? (
-              <div className="rounded-2xl border border-zinc-200 bg-white dark:bg-zinc-900 dark:border-zinc-900 p-4 shadow-sm">
-                <div className="text-base text-zinc-600">
-                  <Leaderboard />
-                </div>
-              </div>
-            ) : (
+              <Leaderboard />
+            ) : view === "account" ? (
               <MyAccount></MyAccount>
+            ) : (
+              <HowToPlay></HowToPlay>
             )
           ) : (
-            <div className="flex flex-col items-center pt-24 space-y-12">
-              <WelcomeMessage></WelcomeMessage>
-              <AuthCard
-                onLogin={handleLogin}
-                onSignup={handleSignup}
-              />
-
-            </div>
+              view === "howto" ? (
+                <HowToPlay></HowToPlay>
+              ) : (
+                <div className="flex flex-col items-center pt-24 space-y-12">
+                  <WelcomeMessage></WelcomeMessage>
+                  <AuthCard
+                    onLogin={handleLogin}
+                    onSignup={handleSignup}
+                  />
+                </div>
+              )
+            // <div className="flex flex-col items-center pt-24 space-y-12">
+            //   <WelcomeMessage></WelcomeMessage>
+            //   <AuthCard
+            //     onLogin={handleLogin}
+            //     onSignup={handleSignup}
+            //   />
+            // </div>
           )}
         </div>
       </div>
