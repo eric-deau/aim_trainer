@@ -8,12 +8,15 @@ import Leaderboard from "./Components/Leaderboard.jsx";
 import MyAccount from "./Components/MyAccount.jsx";
 import HowToPlay from "./Components/HowToPlay.jsx";
 import GuestPage from "./Components/GuestPage.jsx";
+import GuestPlayModal from "./Components/GuestPlayModal.jsx";
+
 import './App.css'
 import strings from "./lang/en/en.json";
 
 import { useAuth } from "./hooks/useAuth.js"
 import { useRunSubmit } from "./hooks/useRunSubmit.js";
 import { useTheme } from "./hooks/useTheme.js";
+import { useGuestRunModal } from "./hooks/useGuestRunModal.js";
 
 import { withMinimumLoading } from "./utility/utils.js";
 
@@ -59,6 +62,13 @@ export default function App() {
     discardRun,
     confirmSubmit,
   } = useRunSubmit();
+
+  const {
+    guestModalOpen,
+    pendingRun: pendingGuestRun,
+    openGuestModal,
+    discardGuestRun,
+  } = useGuestRunModal();
 
 
   // loader fade out
@@ -145,6 +155,22 @@ export default function App() {
           onSubmit={confirmSubmit}
         />
 
+        <GuestPlayModal
+          open={guestModalOpen}
+          run={pendingGuestRun}
+          onClose={discardGuestRun}
+          onSignup={() => {
+            discardGuestRun();
+            setView("guest");
+          }}
+          onLogin={() => {
+            discardGuestRun();
+            setView("guest");
+          }}
+        />
+
+
+
         <div className="mx-auto max-w-6xl space-y-6">
           {user ? (
             <Navbar
@@ -178,7 +204,7 @@ export default function App() {
               view === "howto" ? (
                 <HowToPlay></HowToPlay>
               ) : view === "play" ? (
-                <GridShot></GridShot>
+                <GridShot onRunComplete={openGuestModal}></GridShot>
               ) : (
                 <GuestPage handleLogin={ handleLogin } handleSignup={ handleSignup }></GuestPage>
               )              

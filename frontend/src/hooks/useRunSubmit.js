@@ -36,8 +36,6 @@ export function useRunSubmit() {
         setPendingRun(null);
         setSubmitSuccess(false);
       }, 1500);
-      // setRunModalOpen(false);
-      // setPendingRun(null);
     } catch (e) {
       setSubmitError(e?.message || "Failed to submit run");
     } finally {
