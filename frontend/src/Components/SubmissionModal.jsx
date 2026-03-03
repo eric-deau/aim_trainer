@@ -1,7 +1,7 @@
 import DiscardButton from "./DiscardButton";
 import SubmissionSummary from "./SubmissionSummary";
 import SubmitButton from "./SubmitButton";
-import { useEffect } from 'react'
+import { useEffect } from 'react';
 
 export default function SubmissionModal({
     open,
@@ -14,7 +14,7 @@ export default function SubmissionModal({
 }) {
   if (!open) return null;
 
-   useEffect(() => {
+  useEffect(() => {
     if (!open) return;
     const onKeyDown = (e) => {
       if (e.key === "Escape") onClose?.();
@@ -31,11 +31,11 @@ export default function SubmissionModal({
       />
 
       <div className="absolute inset-0 flex items-center justify-center p-4">
-        <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl ring-1 ring-zinc-200">
+        <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl ring-1 ring-zinc-200 dark:bg-zinc-900 dark:ring-zinc-800">
           <div className="flex items-start justify-between gap-4">
                 <div>
-                    <h2 className="text-lg font-semibold text-zinc-900">Run complete</h2>
-                    <p className="mt-1 text-sm text-zinc-600">
+                    <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Run complete</h2>
+                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-200">
                         Submit this run to the leaderboard?
                     </p>
                 </div>

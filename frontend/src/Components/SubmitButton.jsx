@@ -6,7 +6,7 @@ export default function SubmitButton( {onSubmit, submitting, success}) {
               type="button"
               onClick={onSubmit}
               disabled={submitting || success}
-              className="flex-1 rounded-xl bg-zinc-900 px-4 py-2 text-sm font-semibold text-white hover:bg-zinc-800 disabled:opacity-50 inline-flex items-center justify-center gap-2"
+              className="flex-1 rounded-xl bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-200 ring-2 ring-green-200 disabled:opacity-50 inline-flex items-center justify-center gap-2"
             >
               {submitting ? (
                 <>
