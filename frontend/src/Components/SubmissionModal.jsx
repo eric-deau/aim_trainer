@@ -13,7 +13,6 @@ export default function SubmissionModal({
     error = "",
     success = false,
 }) {
-  if (!open) return null;
 
   useEffect(() => {
     if (!open) return;
@@ -23,6 +22,8 @@ export default function SubmissionModal({
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open, onClose]);
+  
+  if (!open) return null;
 
   return (
     <ModalTemplate
